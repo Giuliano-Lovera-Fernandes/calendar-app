@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Dima.Api.Data.Mappings
+namespace Dima.Api.Data.Mappings.Identity
 {
     public class CategoryMapping : IEntityTypeConfiguration<Category>
     {
@@ -18,7 +18,7 @@ namespace Dima.Api.Data.Mappings
             builder.Property(x => x.Description)
                 .IsRequired(true)
                 .HasColumnType("NVARCHAR")
-                .HasMaxLength(255); 
+                .HasMaxLength(255);
 
             builder.Property(x => x.UserId)
                 .IsRequired(true)

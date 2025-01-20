@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Dima.Api.Data.Mappings
+namespace Dima.Api.Data.Mappings.Identity
 {
     public class TransactionMapping : IEntityTypeConfiguration<Transaction>
     {
