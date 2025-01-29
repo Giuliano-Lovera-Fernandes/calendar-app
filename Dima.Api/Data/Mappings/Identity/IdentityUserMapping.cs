@@ -10,7 +10,7 @@ namespace Dima.Api.Data.Mappings.Identity
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("IdentityUser");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(u => u.Id);
 
             builder.HasIndex(u => u.NormalizedUserName).IsUnique();
             builder.HasIndex(u => u.NormalizedEmail).IsUnique();
@@ -18,7 +18,7 @@ namespace Dima.Api.Data.Mappings.Identity
             builder.Property(u => u.Email).HasMaxLength(180);
             builder.Property(u => u.NormalizedEmail).HasMaxLength(180);
             builder.Property(u => u.UserName).HasMaxLength(180);
-            builder.Property(u => u.NormalizedUserName).HasMaxLength(20);
+            builder.Property(u => u.NormalizedUserName).HasMaxLength(180);
             builder.Property(u => u.PhoneNumber).HasMaxLength(20);
             builder.Property(u => u.ConcurrencyStamp).IsConcurrencyToken();
 

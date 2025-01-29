@@ -1,44 +1,74 @@
 
+using Dima.Api;
+using Dima.Api.Common.Api;
 using Dima.Api.Data;
 using Dima.Api.EndPoints;
 using Dima.Api.Handlers;
+using Dima.Api.Models;
+using Dima.Core;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddConfiguration();
+builder.AddSecurity();
+builder.AddDataContexts();
+builder.AddCrossOrigin();
+builder.AddDocumentation();
+builder.AddServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(x =>
-{
-    x.CustomSchemaIds(n => n.FullName);
-    x.EnableAnnotations();
-});
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen(x =>
+//{
+//    x.CustomSchemaIds(n => n.FullName);
+//    x.EnableAnnotations();
+//});
 
-builder.Services
-    .AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
-builder.Services.AddAuthorization();
+//builder.Services
+//    .AddAuthentication(IdentityConstants.ApplicationScheme)
+//    .AddIdentityCookies();
+//builder.Services.AddAuthorization();
 
-var cnnStr = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+//var cnnStr = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
 
-builder.Services.AddDbContext<AppDbContext>(
-    x => { 
-            x.UseSqlServer(cnnStr);
-        });
+//builder.Services.AddDbContext<AppDbContext>(
+//    x => { 
+//            x.UseSqlServer(cnnStr);
+//        });
 
-builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
-builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+//builder.Services.AddDbContext<AppDbContext>(
+//    x => {
+//        x.UseSqlServer(Configuration.ConnectionString);
+//    });
+
+
+//builder.Services.AddIdentityCore<User>()
+//    .AddRoles<IdentityRole<long>>()
+//    .AddEntityFrameworkStores<AppDbContext>()
+//    .AddApiEndpoints();
+
+//builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+//builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+    app.ConfigureDevEnvironment();
+app.UseCors(ApiConfiguration.CorsPolicyName);
+app.UseSecurity();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+//app.UseSwagger();
+//app.UseSwaggerUI();
 
 //app.MapPost(
 //    "/v1/categories",
@@ -104,8 +134,50 @@ app.UseSwaggerUI();
 //    .WithName("Categories: Get by Id")
 //    .WithSummary("Retorna uma categoria")
 //    .Produces<Response<Category?>>();
-app.MapGet("/", () => new { message = "Ok" });
+//app.MapGet("/", () => new { message = "Ok" });
 app.MapEndPoints();
+app.MapGroup("v1/identity")
+    .WithTags("Identity")
+    .MapIdentityApi<User>();
+
+
+//app.MapGroup("v1/identity")
+//    .WithTags("Identity")
+//    .MapPost("/logout", async (
+//        SignInManager < User > signInManager ) =>
+//        //SignInManager<User> signInManager,
+//        //UserManager<User> userManager,
+//        //RoleManager<User> roleManager) =>
+//    {
+//        await signInManager.SignOutAsync();
+//        return Results.Ok();
+//    })
+//    .RequireAuthorization();
+
+//app.MapGroup("v1/identity")
+//    .WithTags("Identity")
+//    .MapGet("/roles", async (
+//        ClaimsPrincipal user) =>    
+//    {
+//        if (user.Identity is null || !user.Identity.IsAuthenticated)
+//            return Results.Unauthorized();
+
+//        var identity = (ClaimsIdentity)user.Identity;
+//        var roles = identity
+//        .FindAll(identity.RoleClaimType)
+//        .Select(c => new
+//        {
+//            c.Issuer,
+//            c.OriginalIssuer,
+//            c.Type,
+//            c.Value,
+//            c.ValueType
+//        });
+
+//        return TypedResults.Json(roles);
+//    })
+//    .RequireAuthorization();
+
 app.Run();
 
 public class Request

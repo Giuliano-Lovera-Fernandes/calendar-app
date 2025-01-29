@@ -4,6 +4,7 @@ using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Requests.Transactions;
 using Dima.Core.Responses;
+using System.Security.Claims;
 
 namespace Dima.Api.EndPoints.Transactions
 {
@@ -18,13 +19,15 @@ namespace Dima.Api.EndPoints.Transactions
            .Produces<Response<Transaction?>>();
 
         private static async Task<IResult> HandleAsync(
+            ClaimsPrincipal user,
             ITransactionHandler handler,
             long id
             )
         {
             var request = new DeleteTransactionRequest
             {
-                UserId = "test@giuliano.io",
+                //UserId = "test@giuliano.io",
+                UserId = user.Identity?.Name ?? string.Empty,
                 Id = id
             };
 
