@@ -42,7 +42,12 @@ namespace Dima.Api.EndPoints
             endpoints.MapGroup("v1/identity")
                 .WithTags("Identity")                
                 .MapEndpoint<LogoutEndpoint>(app)
-                .MapEndpoint<GetRolesEndpoint>(app);
+                .MapEndpoint<GetRolesEndpoint>(app)
+                .MapEndpoint<RegisterEndpoint>(app);
+
+
+
+
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder routeBuilder, WebApplication app)
