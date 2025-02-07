@@ -1,8 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Configuration.Theme" />
-<MudSnackbarProvider />
 
+<MudSnackbarProvider />
+<MudDialogProvider></MudDialogProvider>
+<MudPopoverProvider></MudPopoverProvider>
 <AuthorizeView>
     <Authorized>
         <MudLayout>
@@ -31,7 +33,7 @@
                 <NavBMenu></NavBMenu>
             </MudDrawer>
             <MudMainContent>
-                <MudContainer>
+                <MudContainer Class="mt-4">
                     @Body
                 </MudContainer>
             </MudMainContent>
@@ -41,6 +43,7 @@
         <LoginRedirect></LoginRedirect>
     </NotAuthorized>
 </AuthorizeView>
+
 
 @code{
     private bool _isDrawerOpened = true;
