@@ -1,5 +1,6 @@
 ﻿using Dima.Api.Common.Api;
 using Dima.Api.EndPoints.Categories;
+using Dima.Api.EndPoints.Events;
 using Dima.Api.EndPoints.Identity;
 using Dima.Api.EndPoints.Reports;
 using Dima.Api.EndPoints.Transactions;
@@ -55,6 +56,15 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<GetIncomesByCategoryEndpoint>(app)
                 .MapEndpoint<GetFinancialSummaryEndpoint>(app)
                 .MapEndpoint<GetExpensesByCategoryEndpoint>(app);
+
+            endpoints.MapGroup("v1/events")
+                .WithTags("Events")
+                .RequireAuthorization()
+                .MapEndpoint<CreateEventEndpoint>(app)
+                .MapEndpoint<UpdateEventEndpoint>(app)
+                .MapEndpoint<DeleteEventEndpoint>(app)
+                //.MapEndpoint<GetCategoryByIdEndpoint>(app)
+                .MapEndpoint<GetAllEventsEndpoint>(app);
 
         }
 

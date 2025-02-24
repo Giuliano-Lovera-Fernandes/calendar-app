@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dima.Core.Requests.Events
 {
-    public class CreateEventRequest
+    public class CreateEventRequest : Request
     {
         // Data Annotations para validação
 

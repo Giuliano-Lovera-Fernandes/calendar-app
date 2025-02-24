@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dima.Core.Requests.Events
 {
-    public class UpdateEventRequest
+    public class UpdateEventRequest : Request
     {
         public long Id { get; set; } // ID do evento que será atualizado
 
@@ -26,5 +26,7 @@ namespace Dima.Core.Requests.Events
 
         [Required(ErrorMessage = "Data e Hora de término é obrigatória")]
         public DateTime EndDate { get; set; }
+
+        public bool IsActive { get; set; } = true;
     }
 }

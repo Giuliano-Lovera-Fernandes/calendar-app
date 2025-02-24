@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dima.Core.Requests.Events
 {
-    public class DeleteEventRequest
+    public class DeleteEventRequest : Request
     {
         public long Id { get; set; }
     }

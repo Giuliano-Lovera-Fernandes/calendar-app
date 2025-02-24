@@ -6,6 +6,7 @@ using Dima.Core.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Dima.Api.Common.Api
 {
     public static class BuilderExtension
@@ -73,6 +74,8 @@ namespace Dima.Api.Common.Api
         {
             builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+            builder.Services.AddTransient<IEventHandler, EventoHandler>();
+            //builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
             builder.Services.AddTransient<IReportHandler, ReportHandler>();
         }
     }
