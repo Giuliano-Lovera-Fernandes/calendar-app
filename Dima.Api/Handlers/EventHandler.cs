@@ -13,6 +13,31 @@ namespace Dima.Api.Handlers
         {
             try
             {
+                // Validar se o horário de término é posterior ao horário de início
+                //assegura que o evento não será criado com um horário de término inválido
+                if (request.EndDate <= DateTime.UtcNow)
+                {
+                    return new Response<Event>(null, 400, "A data de término não pode ser anterior ou igual à data atual.");
+                }
+
+                if (request.StartDate >= request.EndDate)
+                {
+                    return new Response<Event>(null, 400, "A data de início não pode ser posterior à data de término.");
+                }
+
+                // Verificar se já existe um evento no mesmo intervalo de tempo
+                var overlappingEvent = await context.Events
+                    .Where(e => e.StartDate < request.EndDate && e.EndDate > request.StartDate)
+                    .AnyAsync();
+
+                if (overlappingEvent)
+                {
+                    return new Response<Event>(null, 400, "Já existe um evento no mesmo horário. Por favor, escolha outro horário.");
+                }
+
+                // Verificar se o evento dura mais de um dia
+                bool isMultiDayEvent = (request.EndDate - request.StartDate).TotalDays > 1;
+
                 var eventObj = new Event
                 {
                     UserId = request.UserId,
@@ -20,7 +45,8 @@ namespace Dima.Api.Handlers
                     Description = request.Description,
                     StartDate = DateTime.UtcNow,
                     EndDate = request.EndDate,
-                    IsActive = true
+                    IsActive = true,
+                    IsMultiDayEvent = isMultiDayEvent
                 };
 
                 await context.Events.AddAsync(eventObj);
@@ -105,8 +131,8 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var query = context.Events.
-                AsNoTracking()
+                var query = context.Events
+                .AsNoTracking()
                 .Where(x => x.UserId == request.UserId)
                 .OrderBy(x => x.Title);
 
@@ -115,8 +141,25 @@ namespace Dima.Api.Handlers
                     .Take(request.PageSize)
                     .ToListAsync();
 
+
+                // Carregar todos os RSVP's relacionados aos eventos carregados
+                var eventIds = events.Select(e => e.Id).ToList();
+                var rsvps = await context.RVSPs
+                .Where(r => eventIds.Contains(r.EventId))
+                .ToListAsync();
+
+                // Associar os RSVP's aos eventos
+                //foreach (var eventObj in events)
+                //{
+                //    eventObj.RSVPs = rsvps
+                //        .Where(r => r.EventId == eventObj.Id)
+                //        .ToList();
+                //}
+
+
                 var count = await query
                     .CountAsync();
+
 
                 return new PagedResponse<List<Event>>(events, count, request.PageNumber, request.PageSize);
             }

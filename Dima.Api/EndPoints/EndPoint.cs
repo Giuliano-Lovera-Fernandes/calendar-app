@@ -3,6 +3,7 @@ using Dima.Api.EndPoints.Categories;
 using Dima.Api.EndPoints.Events;
 using Dima.Api.EndPoints.Identity;
 using Dima.Api.EndPoints.Reports;
+using Dima.Api.EndPoints.RVSPs;
 using Dima.Api.EndPoints.Transactions;
 using Dima.Api.Models;
 using Dima.Core.Requests.Reports;
@@ -65,6 +66,15 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<DeleteEventEndpoint>(app)
                 //.MapEndpoint<GetCategoryByIdEndpoint>(app)
                 .MapEndpoint<GetAllEventsEndpoint>(app);
+
+            endpoints.MapGroup("v1/rvsps")
+                .WithTags("RVSPs")
+                .RequireAuthorization()
+                .MapEndpoint<CreateRVSPEndpoint>(app)
+                .MapEndpoint<UpdateRVSPEndpoint>(app)
+                .MapEndpoint<DeleteRVSPEndpoint>(app)
+                //.MapEndpoint<GetCategoryByIdEndpoint>(app)
+                .MapEndpoint<GetAllRVSPsEndpoint>(app);
 
         }
 

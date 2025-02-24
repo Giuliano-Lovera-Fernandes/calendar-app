@@ -23,7 +23,9 @@ namespace Dima.Core.Models
         // Status de ativação do evento (pode ser utilizado para desativar um evento sem excluí-lo)
         public bool IsActive { get; set; } = true;
 
+        public bool IsMultiDayEvent { get; set; }
+
         // Lista de convidados (RSVP)
-        //public List<RSVP> RSVPs { get; set; } = new List<RSVP>();
+        //public List<RVSP> RSVPs { get; set; } = new List<RVSP>();
     }
 }
