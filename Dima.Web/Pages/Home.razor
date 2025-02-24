@@ -1,8 +1,51 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudGrid Justify="Justify.Center">
+    <MudItem lg="6" md="12" sm="12" xs="12">
+        <MudCard Class="pa-8" >
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Resumo Financeiro</MudText>
+                </CardHeaderContent>              
+                
+            </MudCardHeader>
+            <MudCardContent><FinancialSummaryChart></FinancialSummaryChart></MudCardContent>
 
-Welcome to your new app.
+        </MudCard>
+    </MudItem>
+    <MudItem lg="6" md="12" sm="12" xs="12">
+        <MudCard Class="pa-8">
+            <MudCardHeader>
+                <MudText Typo="Typo.h6">Receitas e Despesas</MudText>
+            </MudCardHeader>
+            <MudCardContent>
+                <IncomesAndExpensesChart>
+
+                </IncomesAndExpensesChart>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+        <MudItem lg="6" md="12" sm="12" xs="12">
+        <MudCard Class="pa-8">
+            <MudCardHeader>
+                <MudText Typo="Typo.h6">Entradas por Categoria</MudText>
+            </MudCardHeader>
+            <MudCardContent>
+                <IncomesByCategoryChart>
+                </IncomesByCategoryChart>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+        <MudItem lg="6" md="12" sm="12" xs="12">
+        <MudCard Class="pa-8">
+            <MudCardHeader>
+                <MudText Typo="Typo.h6">Despesas por categoria</MudText>
+            </MudCardHeader>
+            <MudCardContent>
+                <ExpensesByCategoryChart></ExpensesByCategoryChart>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 

@@ -1,0 +1,48 @@
+﻿@inherits IncomesAndExpensesChartComponent
+
+@if (Series is not null)
+{
+    <MudChart 
+        ChartOptions="Options"
+        ChartType="ChartType.Line"
+        ChartSeries="Series"
+        XAxisLabels="Labels.ToArray()"
+        CanHideSeries="true"              
+        Width="100%"
+        Height="350px">
+
+    </MudChart>
+}
+else
+{
+    <div class="d-flex align-center  justify-center" style="height:350px" >
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary"></MudProgressCircular>
+    </div>
+}
+
+@code {
+    // protected override async Task OnInitializedAsync()
+    // {
+        // // Dados de exemplo para despesas
+        // var expenses = new List<double> { -2549, -3000, -2800, -3100, -2700, -2900, -3200, -3300, -3100 };
+
+        // // Labels para o eixo X (exemplo de meses)
+        // Labels = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+
+        // // Configuração das opções do gráfico
+        // Options = new ChartOptions
+        //     {
+        //         LineStrokeWidth = 5,  // Largura da linha do gráfico
+        //         ChartPalette = [ "#FF0000" ],  // Cor das despesas
+        //         YAxisTicks = 10      // Quantidade de divisões no eixo Y
+        //     };
+
+        // // Definindo as séries do gráfico (só as despesas por enquanto)
+        // Series = new List<ChartSeries>
+        // {
+        //     new ChartSeries { Name = "Despesas", Data = expenses.ToArray() }
+        // };
+
+        // StateHasChanged();
+    // }
+}

@@ -1,8 +1,10 @@
 ﻿using Dima.Api.Common.Api;
 using Dima.Api.EndPoints.Categories;
 using Dima.Api.EndPoints.Identity;
+using Dima.Api.EndPoints.Reports;
 using Dima.Api.EndPoints.Transactions;
 using Dima.Api.Models;
+using Dima.Core.Requests.Reports;
 
 namespace Dima.Api.EndPoints
 {
@@ -46,7 +48,13 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<RegisterEndpoint>(app);
 
 
-
+            endpoints.MapGroup("v1/reports")
+                .WithTags("Reports")
+                .RequireAuthorization()
+                .MapEndpoint<GetIncomesAndExpensesEndpoint>(app)
+                .MapEndpoint<GetIncomesByCategoryEndpoint>(app)
+                .MapEndpoint<GetFinancialSummaryEndpoint>(app)
+                .MapEndpoint<GetExpensesByCategoryEndpoint>(app);
 
         }
 

@@ -32,6 +32,7 @@ builder.Services.AddHttpClient(Configuration.HttpClientName,  option =>
 builder.Services.AddTransient<IAccountHandler, AccountHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+builder.Services.AddTransient<IReportHandler, ReportHandler>();
 
 //builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");

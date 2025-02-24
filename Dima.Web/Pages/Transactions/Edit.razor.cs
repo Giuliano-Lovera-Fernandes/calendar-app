@@ -7,11 +7,14 @@ using MudBlazor;
 
 namespace Dima.Web.Pages.Transactions
 {
-    public partial class CreateTransactionPage : ComponentBase
+    public partial class EditTransactionPage : ComponentBase
     {
         #region Properties
+        [Parameter]
+        public string Id { get; set; } = string.Empty;
+
         public bool IsBusy { get; set; } = false;
-        public CreateTransactionRequest InputModel { get; set; } = new();
+        public UpdateTransactionRequest InputModel { get; set; } = new();
         public List<Category> Categories { get; set; } = [];
 
         #endregion
@@ -39,10 +42,11 @@ namespace Dima.Web.Pages.Transactions
             IsBusy = true;
             try
             {
-                var result = await TransactionHandler.CreateAsync(InputModel);
+                var result = await TransactionHandler.UpdateAsync(InputModel);
 
                 if (result.IsSuccess)
                 {
+                    Snackbar.Add("Lançamento atualizado", Severity.Success);
                     NavigationManager.NavigateTo("/lancamentos/historico");
                 }
                 else
@@ -62,11 +66,11 @@ namespace Dima.Web.Pages.Transactions
         }
         #endregion
 
-        #region Overrides
-        protected override async Task OnInitializedAsync()
+        #region Private Methods
+        private async Task GetCategoriesAsync()
         {
-            IsBusy = true;            
-           
+            IsBusy = true;
+
             try
             {
                 var request = new GetAllCategoriesRequest();
@@ -77,7 +81,7 @@ namespace Dima.Web.Pages.Transactions
                     InputModel.CategoryId = Categories.FirstOrDefault()?.Id ?? 0;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
@@ -85,6 +89,51 @@ namespace Dima.Web.Pages.Transactions
             {
                 IsBusy = false;
             }
+        }
+
+        private async Task GetTransactionByIdAsync()
+        {
+            IsBusy = true;
+
+            try
+            {
+                var request = new GetTransactionByIdRequest { Id = long.Parse(Id)};
+                var result = await TransactionHandler.GetByIdAsync(request);
+                if (result.IsSuccess && result.Data is not null)
+                {
+
+                    InputModel = new UpdateTransactionRequest
+                    {
+                        CategoryId = result.Data.CategoryId,
+                        PaidOrReceivedAt = result.Data.PaidOrReceivedAt,
+                        Title = result.Data.Title,
+                        Type = result.Data.Type,
+                        Amount = result.Data.Amount,
+                        Id = result.Data.Id
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        #endregion
+
+        #region Overrides
+
+        protected override async Task OnInitializedAsync()
+        {
+            IsBusy = true;
+
+            await GetTransactionByIdAsync();
+            await GetCategoriesAsync();
+
+
         }
         #endregion
     }

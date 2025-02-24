@@ -49,7 +49,7 @@ namespace Dima.Web.Handlers
 
         public async Task<Response<Transaction?>> UpdateAsync(UpdateTransactionRequest request)
         {
-            var result = await _client.PutAsJsonAsync($"v1/transactions{request.Id}", request);
+            var result = await _client.PutAsJsonAsync($"v1/transactions/{request.Id}", request);
             return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
                 ?? new Response<Transaction?>(null, 400, "Não foi possível atualizar sua transação");
         }

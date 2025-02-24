@@ -4,35 +4,36 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dima.Api.Data.Mappings
 {
-    public class TransactionMapping : IEntityTypeConfiguration<Transaction>
+    public class EventMapping : IEntityTypeConfiguration<Event>
     {
-        public void Configure(EntityTypeBuilder<Transaction> builder)
+        public void Configure(EntityTypeBuilder<Event> builder)
         {
-            builder.ToTable("Transaction");
+            builder.ToTable("Event");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title)
                 .IsRequired(true)
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(80);
 
-            builder.Property(x => x.Type)
+            builder.Property(x => x.Description)
                 .IsRequired(true)
-                .HasColumnType("SMALLINT");
-
-            builder.Property(x => x.Amount)
-                .IsRequired(true)
-                .HasColumnType("MONEY");
-
-            builder.Property(x => x.CreateAt)
+                .HasColumnType("NVARCHAR")
+                .HasMaxLength(255);
+            
+            builder.Property(x => x.StartDate)
                 .IsRequired(true);
-
-            builder.Property(x => x.PaidOrReceivedAt)
-                .IsRequired(false);
+            
+            builder.Property(x => x.EndDate)
+                .IsRequired(true);
 
             builder.Property(x => x.UserId)
                 .IsRequired(true)
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(160);
+
+            builder.Property(x => x.IsActive)
+                .IsRequired(true)
+                .HasColumnType("BIT");
         }
     }
 }
