@@ -26,6 +26,6 @@ namespace Dima.Core.Models
         public bool IsMultiDayEvent { get; set; }
 
         // Lista de convidados (RSVP)
-        //public List<RVSP> RSVPs { get; set; } = new List<RVSP>();
+        public List<RVSP> RSVPs { get; set; } = new List<RVSP>();
     }
 }

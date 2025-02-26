@@ -1,0 +1,52 @@
+﻿@page "/eventos"
+@inherits ListEventsPage
+
+<MudText Typo="Typo.h3">Eventos</MudText>
+<div class="d-flex justify-end">
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.TwoTone.Add"
+               Href="/eventos/adicionar">NOVO EVENTO</MudButton>
+</div>
+
+<MudDataGrid Items="@Events"
+             Class="mt-4"
+             Filterable="true"
+             QuickFilter="Filter"
+             Hideable="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Eventos</MudText>
+        <MudSpacer></MudSpacer>
+        <MudTextField @bind-Value="SearchTerm"
+                      Placeholder="Filtrar..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Immediate="true"
+                      IconSize="Size.Medium"
+                      Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <Columns>
+        <PropertyColumn Property="x => x.Id" Title="#"></PropertyColumn>
+        <PropertyColumn Property="x => x.Title" Title="Evento"></PropertyColumn>
+        <PropertyColumn Property="x => x.Description"></PropertyColumn>        
+
+        <TemplateColumn class="d-flex justify-end">
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Href="@($"/eventos/editar/{context.Item.Id}")" Color="Color.Primary" />
+                <MudIconButton Class="ml-4" Size="@Size.Small" Icon="@Icons.Material.Filled.Delete" OnClick="() => OnDeleteButtonClickedAsync(context.Item.Id, context.Item.Title)" Color="Color.Error" />
+            </CellTemplate>
+
+        </TemplateColumn>
+    </Columns>
+
+</MudDataGrid>
+@* <ul>
+    @foreach (var cat in Categories)
+    {
+        <li>@cat.Title</li>
+    }
+</ul> *@
+@code {
+
+}

@@ -8,6 +8,7 @@ using Dima.Core.Handlers;
 using Dima.Web.Handlers;
 using System.Globalization;
 
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty ;
@@ -33,6 +34,7 @@ builder.Services.AddTransient<IAccountHandler, AccountHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 builder.Services.AddTransient<IReportHandler, ReportHandler>();
+builder.Services.AddTransient<IEventHandler, EventoHandler>();
 
 //builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");

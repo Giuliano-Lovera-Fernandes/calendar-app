@@ -22,10 +22,10 @@ namespace Dima.Core.Requests.Events
 
         // Para eventos que podem durar mais de um dia
         [Required(ErrorMessage = "Data e Hora de início é obrigatória")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [Required(ErrorMessage = "Data e Hora de término é obrigatória")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public bool IsActive { get; set; } = true;
     }

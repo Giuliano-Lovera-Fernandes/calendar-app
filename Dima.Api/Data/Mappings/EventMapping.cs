@@ -34,6 +34,10 @@ namespace Dima.Api.Data.Mappings
             builder.Property(x => x.IsActive)
                 .IsRequired(true)
                 .HasColumnType("BIT");
+
+            builder.Property(x => x.IsMultiDayEvent)
+                .IsRequired(true)
+                .HasColumnType("BIT");
         }
     }
 }

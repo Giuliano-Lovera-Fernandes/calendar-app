@@ -1,0 +1,51 @@
+﻿@page "/eventos/editar/{id}"
+@inherits EditEventPage
+
+<MudText Typo="Typo.h3">Editar Evento</MudText>
+
+@if (IsBusy)
+{
+    <MudPaper Class="pa-8 mt-4">
+        <MudSkeleton Height="55px"></MudSkeleton>
+        <MudSkeleton Height="110px"></MudSkeleton>
+        <MudSkeleton Height="55px"></MudSkeleton>
+        <MudSkeleton Height="110px"></MudSkeleton>
+        <MudSkeleton Height="55px"></MudSkeleton>
+    </MudPaper>
+}
+else
+{
+    <MudPaper Class="pa-8 mt-4">
+        <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+
+            <MudTextField T="string" Label="Título"
+                      HelperText="Campo obrigatório"
+                      @bind-Value="InputModel.Title"
+                      For="@(() => InputModel.Title)"></MudTextField>
+
+            <MudTextField T="string" Label="Descrição"
+                          Lines="5"
+                          HelperText="Campo obrigatório"
+                          @bind-Value="InputModel.Description"
+                          For="@(() => InputModel.Description)"></MudTextField>
+
+            <MudDatePicker Label="Quando?"
+                           @bind-Date="@InputModel.StartDate"
+                           HelperText="Selecione a data que o evento será iniciado?"></MudDatePicker>
+
+            <MudDatePicker Label="Até?"
+                           @bind-Date="@InputModel.EndDate"
+                           HelperText="Selecione a data que o evento será iniciado?"></MudDatePicker>
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary">Salvar</MudButton>
+
+        </EditForm>
+    </MudPaper>
+}
+
+@code {
+
+}

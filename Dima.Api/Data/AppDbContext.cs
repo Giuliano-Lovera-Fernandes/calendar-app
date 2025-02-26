@@ -42,7 +42,7 @@ namespace Dima.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
+
             modelBuilder.Entity<IncomesAndExpenses>()
                 .HasNoKey()
                 .ToView("VwGetIncomesAndExpenses");

@@ -18,8 +18,10 @@ namespace Dima.Api.EndPoints.Identity
         private static async Task<IResult> HandleAsync(
         RegisterRequest request,
         UserManager<User> userManager // Usando diretamente o UserManager
-    )
+        )
         {
+
+            
             // Verifica se o e-mail já está registrado
             var existingUser = await userManager.FindByEmailAsync(request.Email);
             if (existingUser != null)

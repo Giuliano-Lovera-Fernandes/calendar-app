@@ -32,9 +32,13 @@ namespace Dima.Api.EndPoints.Events
 
             //return TypedResults.BadRequest(result.Data);
 
-            return result.IsSuccess
-                ? TypedResults.Created($"/{result.Data?.Id}", result)
-                : TypedResults.BadRequest(result.Data); ;
+            //return result.IsSuccess
+                //? TypedResults.Created($"/{result.Data?.Id}", result)
+                //: TypedResults.BadRequest(result.Data);
+
+             //return TypedResults.StatusCode(result.Code, result);
+
+            return Results.Json(result, statusCode: result.Code);
         }
     }
 }

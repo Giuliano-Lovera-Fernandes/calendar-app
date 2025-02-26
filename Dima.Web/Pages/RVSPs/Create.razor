@@ -1,0 +1,63 @@
+﻿@page "/usuarios"
+@inject HttpClient Http
+
+<MudText Typo="Typo.h4">Lista de Usuários</MudText>
+
+<MudTextField @bind-Value="SearchTerm"
+              Placeholder="Buscar por e-mail..."
+              Adornment="Adornment.Start"
+              AdornmentIcon="@Icons.Material.Filled.Search"
+              Immediate="true"
+              IconSize="Size.Medium"
+              Class="mt-3"
+              OnKeyUp="OnSearchChanged">
+</MudTextField>
+
+<MudTable Items="users" Hover="true" Striped="true" Class="mt-4">
+    <HeaderContent>
+        <MudTh>ID</MudTh>
+        <MudTh>Nome</MudTh>
+        <MudTh>Email</MudTh>
+    </HeaderContent>
+
+    <RowTemplate Context="user">
+        <MudTd>@user.Id</MudTd>
+        <MudTd>@user.UserName</MudTd>
+        <MudTd>@user.Email</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<UserDto> users = new();
+    private string SearchTerm { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        var response = await Http.PostAsJsonAsync("v1/identity/users", new { Email = SearchTerm });
+        if (response.IsSuccessStatusCode)
+        {
+            users = await response.Content.ReadFromJsonAsync<List<UserDto>>() ?? new();
+        }
+    }
+
+    private async Task OnSearchChanged(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            await LoadUsers();
+        }
+    }
+
+    private class UserDto
+    {
+        public string Id { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+}
+

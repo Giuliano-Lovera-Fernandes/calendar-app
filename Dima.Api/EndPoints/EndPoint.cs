@@ -47,6 +47,7 @@ namespace Dima.Api.EndPoints
                 .WithTags("Identity")                
                 .MapEndpoint<LogoutEndpoint>(app)
                 .MapEndpoint<GetRolesEndpoint>(app)
+                .MapEndpoint<GetUsersEndpoint>(app)
                 .MapEndpoint<RegisterEndpoint>(app);
 
 
@@ -64,7 +65,7 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<CreateEventEndpoint>(app)
                 .MapEndpoint<UpdateEventEndpoint>(app)
                 .MapEndpoint<DeleteEventEndpoint>(app)
-                //.MapEndpoint<GetCategoryByIdEndpoint>(app)
+                .MapEndpoint<GetEventByIdEndpoint>(app)
                 .MapEndpoint<GetAllEventsEndpoint>(app);
 
             endpoints.MapGroup("v1/rvsps")
