@@ -9,9 +9,7 @@ namespace Dima.Core.Requests.Events
 {
     public class UpdateEventRequest : Request
     {
-        public long Id { get; set; } // ID do evento que será atualizado
-
-        // Data Annotations para validação
+        public long Id { get; set; }         
 
         [Required(ErrorMessage = "Título inválido")]
         [MaxLength(100, ErrorMessage = "O título deve conter até 100 caracteres")]
@@ -19,13 +17,16 @@ namespace Dima.Core.Requests.Events
 
         [Required(ErrorMessage = "Descrição inválida")]
         public string Description { get; set; } = string.Empty;
-
-        // Para eventos que podem durar mais de um dia
+        
         [Required(ErrorMessage = "Data e Hora de início é obrigatória")]
         public DateTime? StartDate { get; set; }
 
+        public TimeSpan? StartTime { get; set; } = TimeSpan.Zero;
+
         [Required(ErrorMessage = "Data e Hora de término é obrigatória")]
         public DateTime? EndDate { get; set; }
+
+        public TimeSpan? EndTime { get; set; } = TimeSpan.Zero;
 
         public bool IsActive { get; set; } = true;
     }

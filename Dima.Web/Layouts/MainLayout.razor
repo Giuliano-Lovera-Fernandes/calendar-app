@@ -17,7 +17,7 @@
             ></MudIconButton>
                 Dima
                 <MudSpacer />
-                <MudButton Href="/lancamentos/novo" Variant="Variant.Text" StartIcon="@Icons.Material.TwoTone.Add">NOVO LANÇAMENTO</MudButton>
+                <MudButton Href="/eventos/adicionar" Variant="Variant.Text" StartIcon="@Icons.Material.TwoTone.Add">NOVO EVENTO</MudButton>
                 <MudSpacer />
                 <MudText Typo="Typo.caption">
                     @context.User.Identity?.Name
@@ -35,7 +35,8 @@
                 <NavBMenu></NavBMenu>
             </MudDrawer>
             <MudMainContent>
-                <MudContainer Class="mt-4">
+                <MudContainer 
+                              Class="mt-4">
                     @Body
                 </MudContainer>
             </MudMainContent>

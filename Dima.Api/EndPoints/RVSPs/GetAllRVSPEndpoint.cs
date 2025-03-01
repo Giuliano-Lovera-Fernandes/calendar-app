@@ -28,21 +28,13 @@ namespace Dima.Api.EndPoints.RVSPs
             )
         {
             var request = new GetAllRVSPsRequest
-            {
-                //UserId = "test@giuliano.io",
+            {                
                 UserId = user.Identity?.Name ?? string.Empty,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
 
-
-            var result = await handler.GetAllAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
+            var result = await handler.GetAllAsync(request);            
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)

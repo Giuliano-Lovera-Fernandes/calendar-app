@@ -1,0 +1,124 @@
+﻿@page "/convites"
+@inherits ListRVSPsPage
+
+
+@if (RVSPsList == null || !RVSPsList.Any())
+{
+    <MudText Typo="Typo.h3">Que tal criar o primeiro convite?</MudText>
+    <MudText Typo="Typo.h3">Antes, crie um evento!</MudText>
+    <div class=" mt-4 d-flex justify-end">
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.TwoTone.Add"
+                   Href="/convites/adicionar">
+            Novo Convite
+        </MudButton>
+    </div>      
+    
+}
+else
+{
+        <MudText Typo="Typo.h3">Resposta aos Eventos</MudText>
+    <div class="d-flex justify-end">
+        <MudButton 
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            StartIcon="@Icons.Material.TwoTone.Add"
+            Href="/convites/adicionar">Novo Convite
+        </MudButton>
+    </div>
+
+    <MudDataGrid  
+        TItem="RVSP "
+        Items="@RVSPsList" 
+        Dense="true"
+        Class="mt-4"
+        Filterable="true"
+        QuickFilter="Filter"
+        Hideable="true"
+        Style="overflow-x: auto; display: block; white-space: nowrap; max-width: 100%;"
+        >
+        <ToolBarContent>
+            <MudText 
+                Typo="Typo.h6">Eventos
+            </MudText>
+            <MudSpacer></MudSpacer>
+            <MudTextField @bind-Value="SearchTerm"
+                Placeholder="Filtrar..."
+                Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search"
+                Immediate="true"
+                IconSize="Size.Medium"
+                Class="mt-0">
+            </MudTextField>
+        </ToolBarContent>
+
+        <Columns>      
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>#</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.Id</span>
+                    @* @context.Item.Id *@
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Email</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.UserId</span>
+                    @* @context.Item.UserId *@
+                </CellTemplate>
+            </TemplateColumn>
+        
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Status da Resposta</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.EventResponseStatus</span>
+                    @* @context.Item.EventResponseStatus *@
+                </CellTemplate>
+            </TemplateColumn>             
+        
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Data de envio</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.EventResponseDate</span>
+                    @* @context.Item.EventResponseDate *@
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Evento</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <MudIconButton Class="ml-24" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" Href="@($"/eventos/detalhes/{context.Item.EventId}")" Color="Color.Primary" />
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn class="d-flex justify-end">
+                <CellTemplate>                
+                    <MudIconButton Class="ml-24" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Href="@($"/convites/editar/{context.Item.Id}")" Color="Color.Primary" />
+                    <MudIconButton Class="ml-12" Size="@Size.Small" Icon="@Icons.Material.Filled.Delete" OnClick="() => OnDeleteButtonClickedAsync(context.Item.Id)" Color="Color.Error" />
+                </CellTemplate>
+
+            </TemplateColumn>
+
+    
+
+
+        </Columns>
+
+    
+    </MudDataGrid>
+}
+@code {
+
+}

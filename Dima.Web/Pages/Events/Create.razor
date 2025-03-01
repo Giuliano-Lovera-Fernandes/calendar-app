@@ -1,39 +1,86 @@
-﻿@page "/eventos/adicionar"
+﻿@inject IDialogService Dialog
+@page "/eventos/adicionar"
 @inherits CreateEventPage
 
 <MudText Typo="Typo.h3">Novo Evento</MudText>
+
+<div class="d-flex justify-end">
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Outlined.ArrowBack"
+               Href="/eventos">
+        Voltar
+    </MudButton>
+</div>
+
 <MudPaper Class="pa-8 mt-4">
     <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
         <DataAnnotationsValidator></DataAnnotationsValidator>
 
-        <MudTextField T="string" Label="Título"
-                      HelperText="Campo obrigatório"
-                      @bind-Value="InputModel.Title"
-                      For="@(() => InputModel.Title)"></MudTextField>
+        <MudTextField 
+            T="string" Label="Título"
+            HelperText="Campo obrigatório"
+            Style=" color: #3CB371;"
+            @bind-Value="InputModel.Title"
+            For="@(() => InputModel.Title)">
+        </MudTextField>
 
-        <MudTextField T="string" Label="Descrição"
-                      Lines="5"
-                      HelperText="Campo obrigatório"
-                      @bind-Value="InputModel.Description"
-                      For="@(() => InputModel.Description)"></MudTextField>
+        <MudTextField 
+            T="string" Label="Descrição"
+            Class="mt-4"
+            Lines="5"
+            HelperText="Campo obrigatório"
+            Style="color: #3CB371;"
+            @bind-Value="InputModel.Description"
+            For="@(() => InputModel.Description)">
+        </MudTextField>
 
-        <MudDatePicker Label="Quando?"
-                       @bind-Date="@InputModel.StartDate"
-                       HelperText="Selecione a data que o evento será iniciado?"></MudDatePicker>
+        <MudDatePicker 
+            Label="Quando?"
+            Class="mt-4"
+            HelperText="Selecione a data que o evento será iniciado"
+            Style="color: #3CB371;"
+            @bind-Date="@InputModel.StartDate">
+        </MudDatePicker>
+
+        <MudTimePicker Label="Hora de Início"
+            Class="mt-4"
+            HelperText="Selecione o horário de início"
+            @bind-Time="@InputModel.StartTime"
+            Style="color: #3CB371;" />
 
         <MudDatePicker Label="Até?"
-                       @bind-Date="@InputModel.EndDate"
-                       HelperText="Selecione a data que o evento será iniciado?"></MudDatePicker>
+            Class="mt-4"
+            @bind-Date="@InputModel.EndDate"
+            HelperText="Selecione a data que o evento será finalizado"
+            Style="color: #3CB371;"></MudDatePicker>
 
+        <MudTimePicker Label="Hora de Fim"
+            Class="mt-4"
+            @bind-Time="@InputModel.EndTime"
+            HelperText="Selecione o horário do fim"
+            Style="color: #3CB371;" />
 
-        <MudButton ButtonType="ButtonType.Submit"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary">Salvar</MudButton>
-
+        <div class="d-flex mt-8">
+            <MudButton ButtonType="ButtonType.Submit"
+            Variant="Variant.Filled"
+            Color="Color.Primary">Salvar</MudButton>
+        </div>
     </EditForm>
-
 </MudPaper>
 
 @code {
 
+    protected override void OnInitialized()
+    {
+        if (InputModel.StartDate == default)
+        {
+            InputModel.StartDate = DateTime.Now;
+        }
+
+        if (InputModel.EndDate == default)
+        {
+            InputModel.EndDate = DateTime.Now.AddDays(1);
+        }
+    }
 }

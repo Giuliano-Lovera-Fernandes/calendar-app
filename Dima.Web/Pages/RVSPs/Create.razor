@@ -1,63 +1,122 @@
-﻿@page "/usuarios"
-@inject HttpClient Http
+﻿@inject IDialogService Dialog
+@page "/convites/adicionar"
+@inherits CreateRVSPPage
 
-<MudText Typo="Typo.h4">Lista de Usuários</MudText>
+<MudText Typo="Typo.h3">Nova Resposta ao Evento</MudText>
 
-<MudTextField @bind-Value="SearchTerm"
-              Placeholder="Buscar por e-mail..."
-              Adornment="Adornment.Start"
-              AdornmentIcon="@Icons.Material.Filled.Search"
-              Immediate="true"
-              IconSize="Size.Medium"
-              Class="mt-3"
-              OnKeyUp="OnSearchChanged">
-</MudTextField>
+<div class="d-flex justify-end">
+    <MudButton 
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        StartIcon="@Icons.Material.Outlined.ArrowBack"
+        Href="/convites">Voltar
+    </MudButton>
+</div>
 
-<MudTable Items="users" Hover="true" Striped="true" Class="mt-4">
-    <HeaderContent>
-        <MudTh>ID</MudTh>
-        <MudTh>Nome</MudTh>
-        <MudTh>Email</MudTh>
-    </HeaderContent>
+<MudPaper 
+    Class="pa-8 mt-4">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
 
-    <RowTemplate Context="user">
-        <MudTd>@user.Id</MudTd>
-        <MudTd>@user.UserName</MudTd>
-        <MudTd>@user.Email</MudTd>
-    </RowTemplate>
-</MudTable>
+        <MudTextField 
+            T="string" 
+            Label="Email do Convidado"
+            HelperText="Campo obrigatório"
+            @bind-Value="InputModel.UserId"
+            For="@(() => InputModel.UserId)"
+            Style=" color: #3CB371;">
+        </MudTextField>
+
+        <MudSelect 
+            T="EEventResponseStatus"
+            Class="mt-4"
+            AnchorOrigin="Origin.BottomCenter"
+            Label="Resposta ao evento"
+            @bind-Value="InputModel.EventResponseStatus">
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Talvez">
+                    <span style="color: #3CB371">Talvez</span>
+                </MudSelectItem>
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Sim">
+                    <span style="color: #3CB371">Sim</span>
+                </MudSelectItem>
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Não">
+                    <span style="color: #FF6347">Não</span>
+                </MudSelectItem>
+        </MudSelect>
+
+        <MudDatePicker 
+            Label="Data Resposta ao Evento"
+            Class="mt-4"
+            AnchorOrigin="Origin.BottomCenter"
+            @bind-Date="@InputModel.EventResponseDate"
+            HelperText="Selecione a data que o evento será iniciado?"
+            Style=" color: #3CB371;">
+        </MudDatePicker> 
+        
+        <MudSelect 
+            T="long"
+            Class="mt-4"
+            Label="RSVP"
+            Style=" color: #3CB371;"
+            @bind-Value="InputModel.EventId"
+            AnchorOrigin="Origin.BottomCenter">
+
+        <MudSelectItem 
+            Class="mt-4"
+            T="long" 
+            Value="0" 
+            Disabled="true">
+            Selecione um evento
+        </MudSelectItem>
+            @foreach (var eventObj in Eventos)
+            {
+                <MudSelectItem T="long" Value="@eventObj.Id">
+                    <span style="color: #3CB371;">@eventObj.Title</span>                  
+                </MudSelectItem>
+            }
+        </MudSelect>
+
+        <div class="d-flex mt-8">
+            <MudButton ButtonType="ButtonType.Submit"
+            Variant="Variant.Filled"
+            Color="Color.Primary">Salvar</MudButton>
+        </div>
+    </EditForm>
+</MudPaper>
+
+<MudPaper
+    Class="pa-8 mt-4">    
+    <EditForm 
+        Model="@InputModel" 
+        OnValidSubmit="OnValidSubmitAsync">
+        <MudCard>
+            <MudCardContent>
+                <MudText 
+                    Typo="Typo.h5">Lista de Emails dos Usuários para convite
+                </MudText>
+                <MudTable Items="Users" Dense="true" Hover="true">
+                    <HeaderContent>                        
+                        <MudTh>Email dos usuários</MudTh>
+                    </HeaderContent>
+                    <RowTemplate Context="user">
+                        <MudTd>
+                            <span style="color: #3CB371;">@user.Email</span>                           
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+    </EditForm>
+</MudPaper>
 
 @code {
-    private List<UserDto> users = new();
-    private string SearchTerm { get; set; } = "";
 
-    protected override async Task OnInitializedAsync()
+protected override void OnInitialized()
     {
-        await LoadUsers();
-    }
-
-    private async Task LoadUsers()
-    {
-        var response = await Http.PostAsJsonAsync("v1/identity/users", new { Email = SearchTerm });
-        if (response.IsSuccessStatusCode)
+        if (InputModel.EventResponseDate == default)
         {
-            users = await response.Content.ReadFromJsonAsync<List<UserDto>>() ?? new();
-        }
-    }
-
-    private async Task OnSearchChanged(KeyboardEventArgs args)
-    {
-        if (args.Key == "Enter")
-        {
-            await LoadUsers();
-        }
-    }
-
-    private class UserDto
-    {
-        public string Id { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+            InputModel.EventResponseDate = DateTime.Now;
+        }        
     }
 }
 

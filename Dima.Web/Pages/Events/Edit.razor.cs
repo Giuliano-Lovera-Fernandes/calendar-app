@@ -1,8 +1,10 @@
 ﻿using Dima.Core.Handlers;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Requests.Events;
+using Dima.Core.Responses;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dima.Web.Pages.Events
 {
@@ -66,6 +68,9 @@ namespace Dima.Web.Pages.Events
                         Title = response.Data.Title,
                         Description = response.Data.Description ?? string.Empty,
                         EndDate = response.Data.EndDate,
+                        StartDate = response.Data.StartDate,
+                        StartTime = response.Data.StartDate.TimeOfDay,
+                        EndTime = response.Data.EndDate.TimeOfDay,
                         IsActive = response.Data.IsActive
                     };
             }
@@ -89,10 +94,14 @@ namespace Dima.Web.Pages.Events
             try
             {
                 var result = await Handler.UpdateAsync(InputModel);
-                if (result.IsSuccess)
+                if (result.IsSuccess && result.Data is not null)
                 {
-                    Snackbar.Add("Evento atualizado", Severity.Success);
+                    Snackbar.Add("Evento atualizado com sucesso", Severity.Success);
                     NavigationManager.NavigateTo("/eventos");
+                }
+                else
+                {
+                    Snackbar.Add(result.Message, Severity.Error);
                 }
             }
             catch (Exception ex)
@@ -103,8 +112,7 @@ namespace Dima.Web.Pages.Events
             {
                 IsBusy = false;
             }
-        }
+        }      
         #endregion
-
     }
 }

@@ -74,7 +74,7 @@ namespace Dima.Api.EndPoints
                 .MapEndpoint<CreateRVSPEndpoint>(app)
                 .MapEndpoint<UpdateRVSPEndpoint>(app)
                 .MapEndpoint<DeleteRVSPEndpoint>(app)
-                //.MapEndpoint<GetCategoryByIdEndpoint>(app)
+                .MapEndpoint<GetRVSPByIdEndpoint>(app)
                 .MapEndpoint<GetAllRVSPsEndpoint>(app);
 
         }

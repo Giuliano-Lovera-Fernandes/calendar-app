@@ -31,12 +31,12 @@ namespace Dima.Web.Handlers
 
             // Verifica se há erros detalhados
             // Verifica se há erros detalhados
-            if (response.Message.Any())
-            {
-                // Exibe os erros individuais no SnackBar
+            //if (response.Message.Any())
+            //{
+            //    // Exibe os erros individuais no SnackBar
                 
-                _snackBar.Add(response.Message, Severity.Error);
-            }            
+            //    _snackBar.Add(response.Message, Severity.Error);
+            //}            
 
             return response;
         }
@@ -51,9 +51,10 @@ namespace Dima.Web.Handlers
 
         public async Task<Response<Event?>> UpdateAsync(UpdateEventRequest request)
         {
-            var result = await _client.PutAsJsonAsync($"v1/events/{request.Id}", request);
-            return await result.Content.ReadFromJsonAsync<Response<Event?>>()
-                ?? new Response<Event?>(null, 400, "Falha ao atualizar a categoria");
+            var result = await _client.PutAsJsonAsync($"v1/events/{request.Id}", request);           
+            var response = await result.Content.ReadFromJsonAsync<Response<Event?>>();            
+
+            return response;
         }
 
         public async Task<PagedResponse<List<Event>>> GetAllAsync(GetAllEventsRequest request)
@@ -62,60 +63,11 @@ namespace Dima.Web.Handlers
                 ?? new PagedResponse<List<Event>>(null, 400, "Não foi possível obter os eventos");
         }
 
-        //public Task<Response<Event?>> CreateAsync(CreateEventRequest request)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
-
         public async Task<Response<Event?>> DeleteAsync(DeleteEventRequest request)
         {
             var result = await _client.DeleteAsync($"v1/events/{request.Id}");
             return await result.Content.ReadFromJsonAsync<Response<Event?>>()
                 ?? new Response<Event?>(null, 400, "Falha ao excluir o evento");
-        }
-
-        //public Task<PagedResponse<List<Event>>> GetAllAsync(GetAllEventsRequest request)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<Response<Event?>> GetByIdAsync(GetEventByIdRequest request)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<Response<Event?>> UpdateAsync(UpdateEventRequest request)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
-        //{
-        //    var result = await _client.DeleteAsync($"v1/categories/{request.Id}");
-        //    return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-        //        ?? new Response<Category?>(null, 400, "Falha ao excluir a categoria");
-        //}
-
-        //public async Task<PagedResponse<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
-        //{
-        //    return await _client.GetFromJsonAsync<PagedResponse<List<Category>>>("v1/categories")
-        //        ?? new PagedResponse<List<Category>>(null, 400, "Não foi possível obter as categorias");
-        //}
-
-        //public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
-        //{
-        //    return await _client.GetFromJsonAsync<Response<Category?>>($"v1/categories/{request.Id}")
-        //        ?? new Response<Category?>(null, 400, "Não foi possível obter a categoria");
-        //}
-
-        //public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
-        //{
-        //    var result = await _client.PutAsJsonAsync($"v1/categories/{request.Id}", request);
-        //    return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-        //        ?? new Response<Category?>(null, 400, "Falha ao atualizar a categoria");
-        //}
-    }
-    
+        }        
+    }    
 }

@@ -15,7 +15,7 @@ namespace Dima.Core.Handlers
         Task<Response<RVSP?>> CreateAsync(CreateRVSPRequest request);
         Task<Response<RVSP?>> UpdateAsync(UpdateRVSPRequest request);
         Task<Response<RVSP?>> DeleteAsync(DeleteRVSPRequest request);
-        //Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request);
+        Task<Response<RVSP?>> GetByIdAsync(GetRVSPByIdRequest request);
         Task<PagedResponse<List<RVSP>>> GetAllAsync(GetAllRVSPsRequest request);
     }
 }

@@ -24,17 +24,10 @@ namespace Dima.Api.EndPoints.RVSPs
             UpdateRVSPRequest request,
             long id
             )
-        {
-            //request.UserId = "test@giuliano.io";
-            request.UserId = user.Identity?.Name ?? string.Empty;
+        {            
+            //request.UserId = user.Identity?.Name ?? string.Empty;
             request.Id = id;
-            var result = await handler.UpdateAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
+            var result = await handler.UpdateAsync(request);            
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)

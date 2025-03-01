@@ -1,52 +1,154 @@
 ﻿@page "/eventos"
 @inherits ListEventsPage
 
-<MudText Typo="Typo.h3">Eventos</MudText>
-<div class="d-flex justify-end">
-    <MudButton Variant="Variant.Filled"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.TwoTone.Add"
-               Href="/eventos/adicionar">NOVO EVENTO</MudButton>
-</div>
+@if (Events == null || !Events.Any())
+{
+    <MudText Typo="Typo.h3">Que tal criar o primeiro evento?</MudText>    
+    <div class=" mt-4 d-flex justify-end">
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.TwoTone.Add"
+                   Href="/eventos/adicionar">
+            Novo Evento
+        </MudButton>
+    </div>
 
-<MudDataGrid Items="@Events"
-             Class="mt-4"
-             Filterable="true"
-             QuickFilter="Filter"
-             Hideable="true">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Eventos</MudText>
-        <MudSpacer></MudSpacer>
-        <MudTextField @bind-Value="SearchTerm"
-                      Placeholder="Filtrar..."
-                      Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search"
-                      Immediate="true"
-                      IconSize="Size.Medium"
-                      Class="mt-0"></MudTextField>
-    </ToolBarContent>
+}
+else
+{
 
-    <Columns>
-        <PropertyColumn Property="x => x.Id" Title="#"></PropertyColumn>
-        <PropertyColumn Property="x => x.Title" Title="Evento"></PropertyColumn>
-        <PropertyColumn Property="x => x.Description"></PropertyColumn>        
+    <MudText Typo="Typo.h3">Eventos</MudText>
+    <div class="d-flex justify-end">
+        <MudButton 
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            StartIcon="@Icons.Material.TwoTone.Add"
+            Href="/eventos/adicionar">NOVO EVENTO
+        </MudButton>
+    </div>
 
-        <TemplateColumn class="d-flex justify-end">
-            <CellTemplate>
-                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Href="@($"/eventos/editar/{context.Item.Id}")" Color="Color.Primary" />
-                <MudIconButton Class="ml-4" Size="@Size.Small" Icon="@Icons.Material.Filled.Delete" OnClick="() => OnDeleteButtonClickedAsync(context.Item.Id, context.Item.Title)" Color="Color.Error" />
-            </CellTemplate>
 
-        </TemplateColumn>
-    </Columns>
+        <MudDataGrid 
+            Items="@Events"
+            Class="mt-4"
+            Filterable="true"
+            QuickFilter="Filter"
+            Hideable="true"
+            Style="overflow-x: auto; display: block; white-space: nowrap; max-width: 100%;">
+    
+        <ToolBarContent>
+            <MudText 
+                Typo="Typo.h6">Eventos
+            </MudText>
+            <MudSpacer></MudSpacer>
+            <MudTextField 
+                @bind-Value="SearchTerm"
+                Placeholder="Filtrar..."
+                Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search"
+                Immediate="true"
+                IconSize="Size.Medium"
+                Class="mt-0">
+            </MudTextField>
+        </ToolBarContent>
 
-</MudDataGrid>
-@* <ul>
-    @foreach (var cat in Categories)
-    {
-        <li>@cat.Title</li>
-    }
-</ul> *@
+        <Columns>
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>#</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.Id</span>                   
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn>
+                <HeaderTemplate>
+                   <strong>Usuário Criador</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.UserId</span>                    
+                </CellTemplate>
+            </TemplateColumn>
+        
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Evento</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.Title</span>                   
+                </CellTemplate>
+            </TemplateColumn>
+             
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Descrição</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.Description</span>                   
+                </CellTemplate>
+            </TemplateColumn>      
+
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Mais de um dia</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    @if (context.Item.IsMultiDayEvent)
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" />
+                    }
+                </CellTemplate>
+            </TemplateColumn>
+       
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Início</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.StartDate</span>                   
+                </CellTemplate>
+            </TemplateColumn>
+       
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Fim</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    <span style="color: #3CB371;">@context.Item.EndDate</span>                   
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn>
+                <HeaderTemplate>
+                    <strong>Ativo</strong>
+                </HeaderTemplate>
+                <CellTemplate Context="context">
+                    @if (context.Item.IsActive)
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                    }
+                </CellTemplate>
+            </TemplateColumn>        
+
+            <TemplateColumn class="d-flex justify-end">
+                <CellTemplate>
+                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Href="@($"/eventos/editar/{context.Item.Id}")" Color="Color.Primary" />
+                    <MudIconButton Class="ml-4" Size="@Size.Small" Icon="@Icons.Material.Filled.Delete" OnClick="() => OnDeleteButtonClickedAsync(context.Item.Id, context.Item.Title)" Color="Color.Error" />
+                </CellTemplate>
+
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+}
 @code {
 
 }

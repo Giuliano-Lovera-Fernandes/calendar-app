@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,23 +10,28 @@ namespace Dima.Core.Models
 {
     public class Event
     {
-        public long Id { get; set; }  // Identificador único do evento
-        public string Title { get; set; } = string.Empty; // Título do evento
-        public string Description { get; set; } = string.Empty; // Descrição do evento       
+        public long Id { get; set; } 
+        public string Title { get; set; } = string.Empty; 
+        public string Description { get; set; } = string.Empty;        
 
-        // Atributos para eventos com duração superior a um dia
-        public DateTime StartDate { get; set; } = DateTime.Now; // Data de início do evento
-        public DateTime EndDate { get; set; }   // Data de término do evento
+        
+        public DateTime StartDate { get; set; } = DateTime.Now; 
+        public DateTime EndDate { get; set; }
+        
+        //Evitar leitura do Entity, causa de erro
+        [NotMapped]
+        public TimeSpan StartTime { get; set; } = TimeSpan.Zero;
 
-        // Relacionamento com o usuário que criou o evento
-        public string UserId { get; set; } = string.Empty; // ID do usuário criador
+        [NotMapped]
+        public TimeSpan EndTime { get; set; } = TimeSpan.Zero;
 
-        // Status de ativação do evento (pode ser utilizado para desativar um evento sem excluí-lo)
+        //Relacionamento com o usuário que criou o evento
+        public string UserId { get; set; } = string.Empty;
+        
         public bool IsActive { get; set; } = true;
 
         public bool IsMultiDayEvent { get; set; }
-
-        // Lista de convidados (RSVP)
+        
         public List<RVSP> RSVPs { get; set; } = new List<RVSP>();
     }
 }

@@ -23,19 +23,11 @@ namespace Dima.Api.EndPoints.RVSPs
             IRVSPHandler handler,
             CreateRVSPRequest request)
         {
-            //request.UserId = "test@giuliano.io";
-            request.UserId = user.Identity?.Name ?? string.Empty;
-            var result = await handler.CreateAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
+            //Caso futuramente seja retomado o processo:
+            //request.UserId = user.Identity?.Name ?? string.Empty;
+            var result = await handler.CreateAsync(request);           
 
-            //return TypedResults.BadRequest(result.Data);
-
-            return result.IsSuccess
-                ? TypedResults.Created($"/{result.Data?.Id}", result)
-                : TypedResults.BadRequest(result.Data); ;
+            return Results.Json(result, statusCode: result.Code);
         }
     }
 }

@@ -35,14 +35,7 @@ namespace Dima.Api.EndPoints.Events
                 PageSize = pageSize
             };
 
-
-            var result = await handler.GetAllAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
+            var result = await handler.GetAllAsync(request);            
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)

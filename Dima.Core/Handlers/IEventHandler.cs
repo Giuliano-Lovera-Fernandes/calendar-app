@@ -14,7 +14,7 @@ namespace Dima.Core.Handlers
     {
         Task<Response<Event?>> CreateAsync(CreateEventRequest request);
         Task<Response<Event?>> UpdateAsync(UpdateEventRequest request);
-        Task<Response<Event ?>> DeleteAsync(DeleteEventRequest request);
+        Task<Response<Event?>> DeleteAsync(DeleteEventRequest request);
         Task<Response<Event?>> GetByIdAsync(GetEventByIdRequest request);
         Task<PagedResponse<List<Event>>> GetAllAsync(GetAllEventsRequest request);
     }

@@ -24,21 +24,12 @@ namespace Dima.Api.EndPoints.Events
             UpdateEventRequest request,
             long id
             )
-        {
-            //request.UserId = "test@giuliano.io";
+        {            
             request.UserId = user.Identity?.Name ?? string.Empty;
             request.Id = id;
             var result = await handler.UpdateAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
-
-            return result.IsSuccess
-                ? TypedResults.Ok(result)
-                : TypedResults.BadRequest(result);
+            
+            return Results.Json(result, statusCode: result.Code);
         }
     }
 }

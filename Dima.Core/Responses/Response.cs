@@ -9,16 +9,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Dima.Core.Responses
 {
     public class Response<TData>
-    {
-        //private readonly int _code;
-        public int _code;
-
-        //[JsonConstructor]
-        //public Response() => _code = Configuration.DEFAULTSTATUSCODE;
-
+    {        
+        private readonly  int _code;
 
         [JsonConstructor]
-        public Response() => Code = Configuration.DEFAULTSTATUSCODE;
+        public Response() => _code = Configuration.DEFAULTSTATUSCODE;
         //public Response()
         //{
         //    _code = DEFAULTSTATUSCODE; 
@@ -28,18 +23,13 @@ namespace Dima.Core.Responses
         {
             Data = data;
             Message = message;
-            _code = code;
-            //Errors = errors ?? new List<string>();
+            _code = code;           
         }
         public TData? Data { get; set; }
-        public string? Message { get; set; }
-        //public List<string> Errors { get; set; } = new List<string>(); // Propriedade para armazenar erros
+        public string? Message { get; set; }        
 
-        //public int Code => _code;
-        public int Code { get; set; }
+        public int Code => _code;      
 
         public bool IsSuccess => _code is >= 200 and <= 299; 
-
-
     }
 }

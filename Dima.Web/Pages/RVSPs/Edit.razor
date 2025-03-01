@@ -1,0 +1,88 @@
+﻿@page "/convites/editar/{Id}"
+@inherits EditRVSPPage
+
+<MudText Typo="Typo.h3">Editar Resposta ao Evento</MudText>
+
+<div class="d-flex justify-end">
+    <MudButton 
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        StartIcon="@Icons.Material.Outlined.ArrowBack"
+        Href="/convites">Voltar
+    </MudButton>
+</div>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm 
+        Model="@InputModel" 
+        OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+        <MudTextField 
+            T="string" 
+            Label="Email do Convidado"
+            HelperText="Campo obrigatório"
+            @bind-Value="InputModel.UserId"
+            For="@(() => InputModel.UserId)"
+            Disabled="true">                      
+        </MudTextField>
+
+        <MudSelect 
+            T="EEventResponseStatus"
+                   Class="mt-4"
+            AnchorOrigin="Origin.BottomCenter"
+            Label="Resposta ao evento"
+            @bind-Value="InputModel.EventResponseStatus">
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Talvez">
+                <span style="color: #3CB371">Talvez</span>
+                </MudSelectItem>
+                    @* Talvez</MudSelectItem> *@
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Sim">
+                <span style="color: #3CB371">Sim</span>
+                    @* Sim</MudSelectItem> *@
+                </MudSelectItem>
+                <MudSelectItem T="EEventResponseStatus" Value="EEventResponseStatus.Não">
+                <span style="color: #FF6347">Não</span>
+                </MudSelectItem>
+                @* Não</MudSelectItem> *@
+        </MudSelect>
+
+        <MudDatePicker 
+            Label="Data Resposta ao Evento"
+            Class="mt-4"
+            AnchorOrigin="Origin.BottomCenter"
+            @bind-Date="@InputModel.EventResponseDate"
+            HelperText="Selecione a data que o evento será iniciado?"
+            Disabled="true">
+        </MudDatePicker>
+
+        <MudSelect Class="mt-4"
+            T="long"
+            Label="RSVP"
+            @bind-Value="InputModel.EventId"
+            ReadOnly="true"
+            Disabled="true"
+            AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem 
+                    T="long" 
+                    Value="0" 
+                    Disabled="false">
+                    Selecione um evento
+                </MudSelectItem>
+            @foreach (var eventObj in Events)
+            {
+                <MudSelectItem T="long" Value="@eventObj.Id" Disabled="false">
+                    @eventObj.Title
+                </MudSelectItem>
+            }
+        </MudSelect>
+
+        <div class="d-flex mt-8">
+            <MudButton 
+                ButtonType="ButtonType.Submit"
+                Variant="Variant.Filled"
+                Color="Color.Primary">Salvar
+            </MudButton>
+        </div>
+    </EditForm>
+</MudPaper>

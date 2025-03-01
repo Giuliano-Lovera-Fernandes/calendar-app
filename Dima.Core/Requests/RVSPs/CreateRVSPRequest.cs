@@ -12,10 +12,10 @@ namespace Dima.Core.Requests.RVSPs
     {       
 
         [Required(ErrorMessage = "Resposta do evento inválida")]
-        public EEventResponseStatus EventResponseStatus { get; set; } = EEventResponseStatus.Maybe;
+        public EEventResponseStatus EventResponseStatus { get; set; } = EEventResponseStatus.Talvez;
 
         [Required(ErrorMessage = "Data inválida")]
-        public DateTime EventResponseDate { get; set; }        
+        public DateTime? EventResponseDate { get; set; }        
 
         [Required(ErrorMessage = "Evento inválido")]
         public long EventId { get; set; }

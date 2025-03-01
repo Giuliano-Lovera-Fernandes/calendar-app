@@ -6,9 +6,9 @@
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" sm="12" md="8" lg="6" xl="6" xxl="6">
-        <MudPaper Class="mud-width-full" pa-8>
-            <div class="d-flex justify-center" pb-8 pt-8>
-                <img src="images/dima.png" alt="Dima - Controle Financeiro" with="200" />
+        <MudPaper Class="mud-width-full pa-8">
+            <div class="d-flex justify-center pb-8 pt-8">
+                <img src="images/logo.png" alt="Dima - Eventos Brilhantes como Diamantes" with="200" />
             </div>
             <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
 
@@ -19,7 +19,8 @@
                               HelperText="Campo obrigatório"
                               InputType="InputType.Email"
                               For="@(() => InputModel.Email)"
-                              @bind-Value="InputModel.Email">
+                              @bind-Value="InputModel.Email"
+                              >
                 </MudTextField>
                 <MudTextField T="string"
                               Label="Senha"

@@ -1,15 +1,15 @@
 ﻿using Dima.Core.Handlers;
-using Dima.Core.Requests.Categories;
+using Dima.Core.Requests.Events;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Dima.Web.Pages.Categories
+namespace Dima.Web.Pages.Events
 {
-    public partial class EditCategoryPage : ComponentBase
+    public partial class DetailsEventPage : ComponentBase
     {
         #region Properties
         public bool IsBusy { get; set; } = false;
-        public UpdateCategoryRequest InputModel { get; set; } = new();
+        public UpdateEventRequest InputModel { get; set; } = new();
 
         #endregion
 
@@ -29,17 +29,17 @@ namespace Dima.Web.Pages.Categories
         public NavigationManager NavigationManager { get; set; } = null!;
 
         [Inject]
-        public ICategoryHandler Handler { get; set; } = null!;
+        public IEventHandler Handler { get; set; } = null!;
 
         #endregion
 
         #region Overrides
         protected override async Task OnInitializedAsync()
-        {                        
-            GetCategoryByIdRequest? request = null;
+        {
+            GetEventByIdRequest? request = null;
             try
             {
-                request = new GetCategoryByIdRequest
+                request = new GetEventByIdRequest
                 {
                     Id = long.Parse(Id)
                 };
@@ -59,11 +59,16 @@ namespace Dima.Web.Pages.Categories
             try
             {
                 if (response.IsSuccess || response.Data is not null)
-                    InputModel = new UpdateCategoryRequest
+                    InputModel = new UpdateEventRequest
                     {
                         Id = response.Data.Id,
                         Title = response.Data.Title,
-                        Description = response.Data.Description ?? string.Empty
+                        Description = response.Data.Description ?? string.Empty,
+                        EndDate = response.Data.EndDate,
+                        StartDate = response.Data.StartDate,
+                        StartTime = response.Data.StartDate.TimeOfDay,
+                        EndTime = response.Data.EndDate.TimeOfDay,
+                        IsActive = response.Data.IsActive
                     };
             }
             catch (Exception ex)
@@ -86,10 +91,14 @@ namespace Dima.Web.Pages.Categories
             try
             {
                 var result = await Handler.UpdateAsync(InputModel);
-                if (result.IsSuccess)
+                if (result.IsSuccess || result.Data is not null)
                 {
-                    Snackbar.Add("Categoria atualizada", Severity.Success);
-                    NavigationManager.NavigateTo("/categorias");
+                    Snackbar.Add("Evento atualizado com sucesso", Severity.Success);
+                    NavigationManager.NavigateTo("/eventos");
+                }
+                else
+                {
+                    Snackbar.Add(result.Message, Severity.Error);
                 }
             }
             catch (Exception ex)
@@ -102,6 +111,5 @@ namespace Dima.Web.Pages.Categories
             }
         }
         #endregion
-
     }
 }

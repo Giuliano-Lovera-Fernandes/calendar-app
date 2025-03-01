@@ -8,21 +8,25 @@ using System.Threading.Tasks;
 namespace Dima.Core.Requests.Events
 {
     public class CreateEventRequest : Request
-    {
-        // Data Annotations para validação
+    {     
 
         [Required(ErrorMessage = "Título inválido")]
         [MaxLength(100, ErrorMessage = "O título deve conter até 100 caracteres")]
         public string Title { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Descrição inválida")]
-        public string Description { get; set; } = string.Empty;        
+        public string Description { get; set; } = string.Empty;
 
-        // Para eventos que podem durar mais de um dia
-        [Required(ErrorMessage = "Data e Hora de início é obrigatória")]
+        [Required(ErrorMessage = "Data de início é obrigatória")]
         public DateTime? StartDate { get; set; }
+        
+        //[Required(ErrorMessage = "Data e Hora de início é obrigatória")]
+        public TimeSpan? StartTime { get; set; } = TimeSpan.Zero;
 
-        [Required(ErrorMessage = "Data e Hora de término é obrigatória")]
+        [Required(ErrorMessage = "Data de término é obrigatória")]
         public DateTime? EndDate { get; set; }
+
+        //[Required(ErrorMessage = "Data e Hora de início é obrigatória")]
+        public TimeSpan? EndTime { get; set; } = TimeSpan.Zero;
     }
 }

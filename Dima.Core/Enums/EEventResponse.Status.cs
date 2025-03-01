@@ -8,8 +8,8 @@ namespace Dima.Core.Enums
 {
     public enum EEventResponseStatus
     {
-        Yes = 1,   // O usuário aceitou o convite
-        No = 2,    // O usuário recusou o convite
-        Maybe = 3  // O usuário talvez participe
+        Sim = 1,   // O usuário aceitou o convite
+        Não = 2,    // O usuário recusou o convite
+        Talvez = 3  // O usuário talvez participe
     }
 }

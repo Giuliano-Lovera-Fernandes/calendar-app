@@ -21,22 +21,9 @@ namespace Dima.Api.EndPoints.Events
             ClaimsPrincipal user,
             IEventHandler handler,
             CreateEventRequest request)
-        {
-            //request.UserId = "test@giuliano.io";
+        {           
             request.UserId = user.Identity?.Name ?? string.Empty;
-            var result = await handler.CreateAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
-
-            //return result.IsSuccess
-                //? TypedResults.Created($"/{result.Data?.Id}", result)
-                //: TypedResults.BadRequest(result.Data);
-
-             //return TypedResults.StatusCode(result.Code, result);
+            var result = await handler.CreateAsync(request);            
 
             return Results.Json(result, statusCode: result.Code);
         }

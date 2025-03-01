@@ -24,20 +24,12 @@ namespace Dima.Api.EndPoints.RVSPs
             )
         {
             var request = new DeleteRVSPRequest
-            {
-                //UserId = "test@giuliano.io",
+            {                
                 UserId = user.Identity?.Name ?? string.Empty,
                 Id = id
             };
 
-
-            var result = await handler.DeleteAsync(request);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Created($"/{result.Data.Id}", result.Data);
-            //}
-
-            //return TypedResults.BadRequest(result.Data);
+            var result = await handler.DeleteAsync(request);            
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)
